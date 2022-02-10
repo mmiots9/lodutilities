@@ -14,6 +14,8 @@
 #' @importFrom dplyr select rename mutate
 #' @importFrom tidyr spread
 #' @importFrom magrittr %>%
+#' @importFrom stats na.omit sd
+#' @importFrom utils read.csv
 
 #' @export
 PCRAnalysis <- function(inputfile = NA, outputfile = NA, max_rep_diff = 0.8, housekeeping = "GADPH",
