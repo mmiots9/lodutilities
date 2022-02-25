@@ -1,16 +1,14 @@
 #' @name PCRAnalysis
 #' @title PCR Analysis Tool
 #' @author Matteo Miotto
-#' @description This functions takes as input the results file from a PCR analysis and gives back an analysis sheet
+#' @description This functions takes as input the results file from a PCR analysis and gives back an analysis file
 #' @param inputfile Character string of input file, can be left NA (default) and a prompt will ask for file
-#' @param outputfile Character string of output file, if left NA (default) sheet is added to input file
+#' @param outputfile Character string of output file
 #' @param max_rep_diff Maximum range of replicates values
 #' @param housekeeping Character string of the housekeeping gene (GADPH as default) against which all deltaCT are calculated
-#' @param sheetname Character string of the output sheetname (Analysis as default)
-#' @usage PCRAnalysis(inputfile = NA, outputfile = NA, max_rep_diff = 0.8, housekeeping = "GADPH", sheetname = "Analysis")
-#' @returns An xlsx sheet with analysis performed (deltaCT and foldchange over housekeeping gene for each sample)
+#' @usage PCRAnalysis(inputfile = NA, outputfile, max_rep_diff = 0.8, housekeeping = "GADPH")
+#' @returns An csv file with analysis performed (deltaCT and foldchange over housekeeping gene for each sample)
 
-#' @importFrom xlsx read.xlsx write.xlsx
 #' @importFrom dplyr select rename mutate
 #' @importFrom tidyr spread
 #' @importFrom magrittr %>%
@@ -18,11 +16,12 @@
 #' @importFrom utils read.csv
 
 #' @export
-PCRAnalysis <- function(inputfile = NA, outputfile = NA, max_rep_diff = 0.8, housekeeping = "GADPH",
-                        sheetname = "Analysis"){
+PCRAnalysis <- function(inputfile = NA, outputfile, max_rep_diff = 0.8, housekeeping = "GADPH"){
 
   # Input QC
-    stopifnot((typeof(max_rep_diff) == "double") & (typeof(housekeeping) == "character"))
+    if ((typeof(max_rep_diff) != "double") | max_rep_diff < 0) {
+      stop("max_rep_diff must be a numeric value > 0")
+    }
 
     if (is.na(inputfile)){
       cat("Choose input file:")
@@ -30,10 +29,21 @@ PCRAnalysis <- function(inputfile = NA, outputfile = NA, max_rep_diff = 0.8, hou
       inputfile <- file.choose()
     }
 
-    stopifnot(typeof(inputfile) == "character")
+    if (typeof(inputfile) != "character") {
+      stop("inputfile must be of type character")
+    }
+
+    if ((typeof(outputfile) != "character")) {
+      stop("outputfile must be of type character")
+    }
+
+    if (typeof(housekeeping) != "character") {
+      stop("housekeeping must be of type character")
+    }
+
 
   # load file
-    data <- read.xlsx(inputfile, sheetName = "Results")
+    data <- read.csv(inputfile, na.strings = "")
 
   # delete first rows
     colrow <- apply(X = data, MARGIN = 1, function(x) any(is.na(x)))
@@ -50,7 +60,9 @@ PCRAnalysis <- function(inputfile = NA, outputfile = NA, max_rep_diff = 0.8, hou
       rename("Sample"=`Sample Name`, "Target"=`Target Name`)
 
   # stop if housekeeping not in Target
-    stopifnot(housekeeping %in% data$Target)
+    if (!(housekeeping %in% data$Target)) {
+      stop("housekeeping is not in Target column. Please check the data and insert new housekeeping")
+    }
 
   # change typeof CT, undetermined -> NA
     data$CT[which(data$CT == "Undetermined")] <- NA
@@ -127,11 +139,8 @@ PCRAnalysis <- function(inputfile = NA, outputfile = NA, max_rep_diff = 0.8, hou
 
     }
 
-  if (is.na(outputfile)) {
-    write.xlsx(newf, inputfile, sheetName = sheetname, append = T, row.names = F, showNA = F)
-  } else {
-    write.xlsx(newf, outputfile, sheetName = sheetname, row.names = F, showNA = F)
-  }
+
+    write.csv(x = newf, file = outputfile, row.names = F, quote = F, na = "")
 
 
 }

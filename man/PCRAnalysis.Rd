@@ -4,24 +4,22 @@
 \alias{PCRAnalysis}
 \title{PCR Analysis Tool}
 \usage{
-PCRAnalysis(inputfile = NA, outputfile = NA, max_rep_diff = 0.8, housekeeping = "GADPH", sheetname = "Analysis")
+PCRAnalysis(inputfile = NA, outputfile, max_rep_diff = 0.8, housekeeping = "GADPH")
 }
 \arguments{
 \item{inputfile}{Character string of input file, can be left NA (default) and a prompt will ask for file}
 
-\item{outputfile}{Character string of output file, if left NA (default) sheet is added to input file}
+\item{outputfile}{Character string of output file}
 
 \item{max_rep_diff}{Maximum range of replicates values}
 
 \item{housekeeping}{Character string of the housekeeping gene (GADPH as default) against which all deltaCT are calculated}
-
-\item{sheetname}{Character string of the output sheetname (Analysis as default)}
 }
 \value{
-An xlsx sheet with analysis performed (deltaCT and foldchange over housekeeping gene for each sample)
+An csv file with analysis performed (deltaCT and foldchange over housekeeping gene for each sample)
 }
 \description{
-This functions takes as input the results file from a PCR analysis and gives back an analysis sheet
+This functions takes as input the results file from a PCR analysis and gives back an analysis file
 }
 \author{
 Matteo Miotto
