@@ -1,7 +1,7 @@
 Package: lodutilities
 Type: Package
 Title: Utility functions for lab analysis
-Version: 0.1.0
+Version: 0.2.1
 Authors@R: person("Matteo", "Miotto", email = "matteo.miotto@humanitasresearch.it",
   role = c("aut", "cre"))
 Description: Package that contains utility functions for the lab's analysis
