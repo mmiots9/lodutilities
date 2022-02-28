@@ -4,7 +4,7 @@ Hi everyone 👋🏻!<br>
 In this package, you can find some useful functions and files to perform your analysis. 
 
 <h2>Installation</h2>
-To install the package run <code>devtools::install_github("lab-lodato/lodutilities")</code>.  
+To install the package run <code>devtools::install_github("mmiots9/lodutilities")</code>.  
 It will install the package as well as its dependencies.
 
 <h2>Functions</h2>
