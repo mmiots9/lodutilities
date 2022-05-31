@@ -96,7 +96,7 @@ PCRAnalysis <- function(inputfile = NA, outputfile, max_rep_diff = 0.8, housekee
       colnames(df) <- c(paste0("Rep", 1:dim(df)[2]))
 
       # order rows to have housekeeping first
-      newrownames <- rbind(rownames(df)[which(rownames(df) == housekeeping)], rownames(df)[-which(rownames(df) == housekeeping)])
+      newrownames <- c(rownames(df)[which(rownames(df) == housekeeping)], rownames(df)[-which(rownames(df) == housekeeping)])
       df <- rbind(df[which(rownames(df) == housekeeping),], df[-which(rownames(df) == housekeeping),])
       rownames(df) <-  newrownames
       df <- as.data.frame(df)
