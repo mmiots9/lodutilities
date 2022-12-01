@@ -1,4 +1,4 @@
-<h1 style='text-align:center'> lodutilities package 🔬📊</h1>
+<h1 align="center"> lodutilities package 🔬📊</h1>
 
 Hi everyone 👋🏻!<br>
 In this package, you can find some useful functions and files to perform your analysis. 
